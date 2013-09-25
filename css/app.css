@@ -1,0 +1,409 @@
+body
+{
+	font-family:Ubuntu,Arimo,Tahoma,Arial,sans-serif;
+	margin:0px
+}
+
+#front_page{
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 500ms ease;
+    background: #FFFFFF;/*url(../images/ebcd1945.bkg.jpg) no-repeat center center fixed;*/
+}
+
+#main{
+	  position:relative;
+      height:100%;
+      background-color:white;
+      margin-left:auto;
+      margin-right:auto;
+}
+#title{
+	   height:110px;
+       background: black;
+	   }
+
+#menu nav
+{
+	background-color:#222222;
+	border-radius:6px;
+	border:1px solid black;
+	margin: 4px 4px;
+}
+	   
+#menu li{      
+     display:inline;
+	 color:#428BCA;
+	 text-transform:capitalize;
+}
+
+#menu ul{  
+	list-style: none outside none;
+	margin:0px;
+	line-height:40px;
+}
+	  
+#books{       
+    width:inherit;
+	padding: 10px;
+}
+
+#page,#menu
+{
+	
+    overflow:hidden;
+}
+ 
+#books:focus{outline:none}
+
+.bar_link{
+	 margin-top:5px;
+	 margin-right:0px;
+	 padding:10px;
+	 padding-top:3px;
+	 padding-bottom:3px;
+	 cursor:pointer;
+	 color:#999999;
+}
+
+.bar_link:hover{
+
+	 color:white;
+}
+
+li.selected .bar_link{font-weight:bold;color:white}
+
+.book
+{		
+	margin: 8px 0px 8px 0px;
+	border-top:1px solid gray;	
+}
+
+
+.book_image
+{
+	height:inherit;
+	float:left;
+}
+
+.book_image > div
+{	
+	border-bottom-right-radius: 20px;
+	padding:0px 10px 10px 0px;
+}
+
+.book_image  img
+{
+	border-radius: 10px;
+	border: 1px solid gray;
+	width:100%;
+}
+
+
+.book_info
+{
+	overflow:hidden;
+}
+
+
+.book_desc
+{
+	padding: 10px 15px 15px;
+	border-radius: 20px;
+	border-top-right-radius: 0;
+	text-overflow: ellipsis;	
+	overflow: hidden;
+	height:inherit;
+}
+
+.book_detalis
+{
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	height: inherit;
+	overflow:hidden;
+	padding: 0px 10px 0px 10px;
+}
+
+.book_title
+{
+	color:#428BCA;
+	font-weight: bold;
+	min-height: 45px;
+	padding: 10px;
+}
+
+.book_price
+{
+	float:left;
+}
+
+.payment
+{
+	float:right;
+}
+
+@media all and (min-width: 1000px) {
+	
+}
+
+.buy_button,.download_button
+{
+	padding: 4px 6px;
+	background: linear-gradient(#90D050, #509D40) repeat scroll 0 0 transparent;
+    border-color: #5B7D3C;
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);	
+	border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 1px 2px rgba(0, 0, 0, 0.5);   
+    cursor: pointer; 
+    font-weight: bold;
+    line-height: normal;
+    padding: 0px 60px;
+    position: relative;
+    text-decoration: none;
+	line-height: 50px;	
+	margin:5px;
+}
+
+.buy_button_disabled
+{
+	background: linear-gradient(#EEEEEE, #C7C7C7) repeat scroll 0 0 transparent !important;
+    border-color: #999999 !important;
+}
+
+.show_button
+{
+	display: inline-block;
+}
+
+#book_template,.hide_button,#pagination_template,#loading
+{
+	display:none;
+}
+
+#pagination
+{
+	text-align:center;
+	margin: 25px;
+}
+
+#pagination > span:first-child a
+{
+	border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+#pagination > span:last-child a
+{
+	border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.pagination_page a
+{
+	text-decoration:none;
+	font-size:32px;
+	border:1px solid #DDDDDD;
+	padding: 8px 22px;
+	color:#428BCA;
+}
+
+.pagination_page a.current
+{
+	background:#eee;
+}
+
+@media (max-width: 440px)
+{
+	
+	#pagination > span:first-child
+	{
+		display:none;
+	}
+
+	#pagination > span:last-child
+	{
+		display:none;
+	}
+	
+}
+
+@media (max-width: 319px)
+{
+	.buy_button,.download_button
+	{
+		font-size: 22px;
+	}
+	
+	body
+	{
+		font-size:18px;
+	}
+	
+	.book_desc
+	{
+		font-size: 14px;
+	}
+	
+	.bitcoin_price
+	{
+		font-size: 45px;
+	}
+	
+	.book_image
+	{
+		display:none;
+	}
+	
+	.book_info
+	{
+		max-height:140px;
+	}
+	
+	
+
+}
+
+@media (min-width: 320px) and (max-width: 479px)
+{
+	.buy_button,.download_button
+	{
+		font-size: 22px;
+	}
+	
+	body
+	{
+		font-size:18px;
+	}
+	
+	.book_desc
+	{
+		font-size: 12px;
+	}
+	
+	.bitcoin_price
+	{
+		font-size: 45px;
+	}
+	
+	.book_image
+	{
+		width:100px;
+	}
+	
+	.book_info
+	{
+		max-height:140px;
+	}
+}
+
+@media (min-width: 480px) and (max-width: 700px)
+{
+	.buy_button,.download_button
+	{
+		font-size: 22px;
+	}
+	
+	body
+	{
+		font-size:18px;
+	}
+	
+	.book_desc
+	{
+		font-size: 14px;
+	}
+	
+	.bitcoin_price
+	{
+		font-size: 45px;
+	}
+	
+	.book_image
+	{
+		width:100px;
+	}
+	
+	.book_info
+	{
+		max-height:140px;
+	}
+}
+
+
+@media (min-width: 701px) and (max-width: 1000px)
+{
+	.buy_button,.download_button
+	{
+		font-size: 22px;
+	}
+	
+	body
+	{
+		font-size:18px;
+	}
+	
+	.book_desc
+	{
+		font-size: 20px;
+	}
+	
+	.bitcoin_price
+	{
+		font-size: 45px;
+	}
+	
+	.book_image
+	{
+		width:140px;
+	}
+	
+	.book_info
+	{
+		max-height:220px;
+	}
+}
+
+@media (min-width: 1001px)
+{
+	.buy_button,.download_button
+	{
+		font-size: 24px;
+	}
+	
+	body
+	{
+		font-size:18px;
+	}
+	
+	.book_desc
+	{
+		font-size: 28px;
+	}
+	
+	.bitcoin_price
+	{
+		font-size: 45px;
+	}
+	
+	.book_title
+	{
+		font-size: 28px;
+	}
+	
+	.book_image
+	{
+		width:180px;
+	}
+	
+	.book_info
+	{
+		max-height:250px;
+	}
+	
+}
+
