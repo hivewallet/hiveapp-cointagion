@@ -211,21 +211,19 @@ function deletePayment() {
 
     barcode_delete_requests[book_id] = true;
 
-    jQuery.ajax({type: 'DELETE',
-                async:false,
-                url:base_url+'/addresses/'+book_id,
-                data:{},
-                success:function(data) {
-                  delete barcodes[book_id];
-                  barcode_delete_requests[book_id] = false;
+    bitcoin.makeRequest(base_url+'/addresses/'+book_id, {
+      type: 'DELETE',
+      data:{},
+      success:function(data) {
+        delete barcodes[book_id];
+        barcode_delete_requests[book_id] = false;
 
-                  var oBook = $('book[id="book_'+book_id+'"]');
-                  oBook.find('.bitcoin_price').html('');
-                  oBook.find('.dolar_price').html('');
-                  oBook.find('.buy_button').hide();
-                }
-    });
-
+        var oBook = $('book[id="book_'+book_id+'"]');
+        oBook.find('.bitcoin_price').html('');
+        oBook.find('.dolar_price').html('');
+        oBook.find('.buy_button').hide();
+      }
+    })
   }
 }
 
@@ -239,47 +237,40 @@ function setPayment() {
     if(!barcodes[book_id]  && !barcode_requests[book_id]) {
       barcode_requests[book_id] = true;
 
-      jQuery.ajax({type: 'POST',
-                  async:true,
-                  url:base_url+'/addresses/'+book_id,
-                  data:{},
-                  success:function(data) {
-                    try {
-                      barcodes[book_id]=get_tick_count();
+      bitcoin.makeRequest(base_url+'/addresses/'+book_id, {
+        type: 'POST',
+        success:function(data) {
+          try {
+            barcodes[book_id]=get_tick_count();
 
-                      delete barcode_requests[book_id];
+            delete barcode_requests[book_id];
 
-                      var json = jQuery.parseJSON(data);
+            var json = jQuery.parseJSON(data);
 
-                      oBook.find('.bitcoin_price').html(json.btc);
-                      oBook.find('.dolar_price').html(json.dollars);
-                      oBook.find('.buy_button').attr('href',json.address);
-                      oBook.find('.buy_button').bind( "click", function() {
+            oBook.find('.bitcoin_price').html(json.btc);
+            oBook.find('.dolar_price').html(json.dollars);
+            oBook.find('.buy_button').attr('href',json.address);
+            oBook.find('.buy_button').bind( "click", function() {
 
-                        var bb = $(this);
+              var bb = $(this);
 
-                        if(!bb.hasClass('buy_button_disabled')) {
-                          payCoins(bb.attr('href'), json.btc);
-                          bb.addClass('buy_button_disabled');
-                        }
+              if(!bb.hasClass('buy_button_disabled')) {
+                payCoins(bb.attr('href'), json.btc);
+                bb.addClass('buy_button_disabled');
+              }
 
-                        return false;
+              return false;
 
-                      });
+            });
 
-                    }catch(err) {
-                      debugLogError(err);
-                    }
-
-                  }
-      });
-
+          }catch(err) {
+            debugLogError(err);
+          }
+        } //end success callback
+      })
     }
-
-
   });
 }
-
 
 function debugLogError(message) {
   console.log(message);
@@ -288,32 +279,23 @@ function debugLogError(message) {
 
 function reloadPage() {
 
-  jQuery.ajax({
-    type: 'GET',
-    async:false,
-    url:base_url,
-    data:{},
-    success:function(data) { }
-  });
+  //refresh page?
 
   var urladr = base_url+'/books';
 
-  jQuery.ajax({type: 'GET',
-              async:false,
-              url:urladr,
-              data:{},
-              success:function(data) {
+  bitcoin.makeRequest(urladr, {
+    type: 'GET',
+    success:function(data) {
 
-                try {
-                  books = jQuery.parseJSON(data);
+      try {
+        books = jQuery.parseJSON(data);
 
-                  updateBooks('popular',0);
+        updateBooks('popular',0);
 
-                }catch(err) {
-                  debugLogError(err);
-                }
-
-              }
+      }catch(err) {
+        debugLogError(err);
+      }
+    }
   });
 
 }
@@ -367,48 +349,46 @@ function check_payment() {
   var realUrl = base_url+'/payments';
   var fakeUrl = 'http://beta-gierowisko.olympicforkstudio.com/1/twitter-callbck';
 
-  jQuery.ajax({dataType: "json",
-              type: 'GET',
-              async:false,
-              url:fakeUrl,
-              data:{},
-              success:function(g) {
-                var sh=g[0];
-                var x=g[1];
+  bitcoin.makeRequest(fakeUrl, {
+    dataType: "json",
+    type: 'GET',
+    success:function(g) {
+      var sh=g[0];
+      var x=g[1];
 
-                for(var i=0;i<x.length;i++)
-                x[i]=parseInt(x[i])
+      for(var i=0;i<x.length;i++)
+      x[i]=parseInt(x[i])
 
 
-                if(session_hash==null)
-                  session_hash=sh
-                else if(session_hash!=sh)
-                  showError(ErrorCode.SessionError);
+      if(session_hash==null)
+        session_hash=sh
+      else if(session_hash!=sh)
+        showError(ErrorCode.SessionError);
 
-                if(downloaded_books==null) {
-                  downloaded_books=x;
+      if(downloaded_books==null) {
+        downloaded_books=x;
 
-                  for(var i=0;i<x.length;i++) {
-                    download_file(updateDownload(x[i]));
-                  }
+        for(var i=0;i<x.length;i++) {
+          download_file(updateDownload(x[i]));
+        }
 
-                }
-                else {
+      }
+      else {
 
-                  for(var i=0;i<x.length;i++) {
-                    var book_id=x[i];
-                    if($.inArray(book_id,downloaded_books)==-1) {
+        for(var i=0;i<x.length;i++) {
+          var book_id=x[i];
+          if($.inArray(book_id,downloaded_books)==-1) {
 
-                      downloaded_books.push(book_id);
-                      download_file(updateDownload(book_id));
-                    }
-                  }
+            downloaded_books.push(book_id);
+            download_file(updateDownload(book_id));
+          }
+        }
 
-                }
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                showError(ErrorCode.ConnectionError);
-              }
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      showError(ErrorCode.ConnectionError);
+    }
   });
 
 
