@@ -4,5 +4,6 @@
   "version": "0.1",
   "author": "Hive",
   "description": "Find great ebooks and buy with Bitcoin",
-  "icon": "icon.png"
+  "icon": "icon.png",
+  "accessedHosts": ["www.cointagion.com", "beta-gierowisko.olympicforkstudio.com"]
 }
